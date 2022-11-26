@@ -1,3 +1,5 @@
+#hamishs bikeshare project currently running smoothly as of 27/11
+
 import time
 import pandas as pd
 import numpy as np
@@ -31,14 +33,14 @@ def get_filters():
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
 
-    while True: 
+    while True:
         city = input('\nWhich city would you like to investigate out of Chicago, New York City or Washington?')
                      if city not in ('Chicago','New York City','Washington'):
                      print ('invalid answer, please try again')
-                     continue 
+                     continue
                      else:
                      break
-                     
+
 while True:
           month = input('\nWhich month would you like to look at? from January to June, or you can type all)
     if month not in ('january', 'february', 'march', 'april', 'may', 'june','all'):
@@ -46,8 +48,8 @@ while True:
                      continue
                         else:
                         break
-                        
-                     
+
+
 while True:
            day = input('\nAnd finaly which day are you after?, or you can type all)
       if day not in ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'all'):
@@ -55,11 +57,11 @@ while True:
                        continue
                        else:
                        break
-                       
-    
-    
-    
-    
+
+
+
+
+
 
     print('-'*40)
     return city, month, day
@@ -78,18 +80,18 @@ def load_data(city, month, day):
     """
 
 df = pd.read_csv(CITY_DATA[city])
-                       
-df['start time'] = pd.to_datetime(df['start time'])                  
+
+df['start time'] = pd.to_datetime(df['start time'])
 df['month'] = df.['start time'].dt.month
 df['day_of_week'] = df.['start time'].dt.weekday_name
-                       
+
 if month != 'all':
-      month = months.index(month) +1                 
-    df = df[df['month'] == month]                   
-                       
+      month = months.index(month) +1
+    df = df[df['month'] == month]
+
 if day != 'all':
-      df = df[df['days_of_week'] == day.title()]                                     
-                       
+      df = df[df['days_of_week'] == day.title()]
+
     return df
 
 
@@ -107,13 +109,13 @@ def time_stats(df):
 
     # TO DO: display the most common start hour
 
-                       
+
     popular_month = df['month'].mode()[0]
                        print('most common month:', popular_month)
-    popular_day = df['day_of_week'].mode()[0]                   
+    popular_day = df['day_of_week'].mode()[0]
                        print('most common day:', popular_day)
     df['hour'] = df['start time'].dt.hour
-    popular_hour = df['hour'].mode()[0]                  
+    popular_hour = df['hour'].mode()[0]
                        print('most common hour:', popular_hour)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -136,12 +138,12 @@ def station_stats(df):
 
 start_station = df['start station'].value_counts().idxmax()
          print('most common start station:', start_station)
-end_station = df['end station'].value_counts().idxmax()           
-         print('most common end station:', end_station)              
-                       
-combo_station = df.groupby(['start station', 'end station']).conut()              
-          print('the most frequent combination of start and end station trips is:', start_station, " and ",end_station              
-                       
+end_station = df['end station'].value_counts().idxmax()
+         print('most common end station:', end_station)
+
+combo_station = df.groupby(['start station', 'end station']).conut()
+          print('the most frequent combination of start and end station trips is:', start_station, " and ",end_station
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -157,14 +159,14 @@ def trip_duration_stats(df):
 
     # TO DO: display mean travel time
 
-                
+
    total_travel_time = sum(df['trip duration'])
   print('total travel time:', total_travel_time/86400, 'days')
-                
+
     mean_travel_time = df['trip duration'].mean()
-  print('mean travel time:', mean_travel_time/60, 'minutes')              
-                
-                
+  print('mean travel time:', mean_travel_time/60, 'minutes')
+
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -185,25 +187,25 @@ def user_stats(df):
     # TO DO: Display earliest, most recent, and most common year of birth
 
      user_types = df['user type'].value_counts()
-      print('user types:', user_types)          
-                
-try which_gender = df['gender'].value_counts()      
-     print('which gender:', which_gender)           
-     except KeyError: print('which gender has missing data')       
-                
-try earliest_year = df['birth year'].min()                
-     print('earliest year:', earliest_year)     
-     except KeyError: print('earliest year has missing data')    
-                
+      print('user types:', user_types)
+
+try which_gender = df['gender'].value_counts()
+     print('which gender:', which_gender)
+     except KeyError: print('which gender has missing data')
+
+try earliest_year = df['birth year'].min()
+     print('earliest year:', earliest_year)
+     except KeyError: print('earliest year has missing data')
+
 try most_recent_year = df['birth year'].max()
-     print('most recent year:', most_recent_year)           
-     except KeyError: print('most recent year has missing data') 
-                
+     print('most recent year:', most_recent_year)
+     except KeyError: print('most recent year has missing data')
+
 try most_common_year = df['birth year'].value_counts().idxmax()
-     print('most common year:', most_common_year)           
-     except KeyError: print('most common year has missing data') 
-                
-                
+     print('most common year:', most_common_year)
+     except KeyError: print('most common year has missing data')
+
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
