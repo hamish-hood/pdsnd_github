@@ -1,3 +1,5 @@
+#hamishs bikeshare project currently running smoothly as of 27/11
+
 import time
 import pandas as pd
 import numpy as np
